@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\str;
 use Psr\Http\Message\RequestInterface;
 use Ratchet\ConnectionInterface;
+use GuzzleHttp\Psr7;
 
 class EventController extends Controller
 {
@@ -23,9 +24,9 @@ class EventController extends Controller
                 $connection->send($request->getBody());
             }
 
-            $conn->send(str(new Response(200)));
+            $conn->send(Psr7\Message::toString(new Response(200)));
         } catch (Exception $e) {
-            $conn->send(str(new Response(500, [], $e->getMessage())));
+            $conn->send(Psr7\Message::toString(new Response(500, [], $e->getMessage())));
         }
 
         $conn->close();
